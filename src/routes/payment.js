@@ -11,7 +11,7 @@ const config = require('../config');
  */
 router.post('/initialize', async (req, res) => {
   try {
-    const { payment_reference, email, gateway } = req.body;
+    const { payment_reference, email, gateway, callback_url } = req.body;
 
     if (!payment_reference) {
       return res.status(400).json({
@@ -37,7 +37,8 @@ router.post('/initialize', async (req, res) => {
 
     const registration = await db.getRegistrationById(payment.registration_id);
     const selectedGateway = (gateway || payment.gateway || 'paystack').toLowerCase();
-    const callbackUrl = `${config.frontendUrl}/comic/success?reference=${payment.payment_reference}&reg_ref=${registration ? registration.registration_reference : ''}&gateway=${selectedGateway}`;
+    const defaultCallback = `${config.frontendUrl.replace(/\/$/, '')}/register/success?reference=${payment.payment_reference}&reg_ref=${registration ? registration.registration_reference : ''}&gateway=${selectedGateway}`;
+    const targetCallbackUrl = callback_url || defaultCallback;
 
     let initResult;
 
@@ -46,7 +47,7 @@ router.post('/initialize', async (req, res) => {
         email: email || `donor_${payment.payment_reference}@slumart.org`,
         amount: payment.amount,
         reference: payment.payment_reference,
-        callback_url: callbackUrl,
+        callback_url: targetCallbackUrl,
         customer: {
           full_name: registration ? registration.full_name : 'Supporter',
           phone_number: registration ? registration.phone_number : ''
@@ -62,7 +63,7 @@ router.post('/initialize', async (req, res) => {
         email: email || `donor_${payment.payment_reference}@slumart.org`,
         amount: payment.amount,
         reference: payment.payment_reference,
-        callback_url: callbackUrl,
+        callback_url: targetCallbackUrl,
         metadata: {
           registration_reference: registration ? registration.registration_reference : '',
           full_name: registration ? registration.full_name : '',

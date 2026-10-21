@@ -19,6 +19,7 @@ router.post('/', async (req, res) => {
   try {
     const {
       full_name,
+      email,
       phone_number,
       date_of_birth,
       comic_format,
@@ -108,6 +109,7 @@ router.post('/', async (req, res) => {
     const registration = await db.createRegistration({
       registration_reference: registrationReference,
       full_name: full_name.trim(),
+      email: email ? email.trim() : null,
       phone_number: phone_number.trim(),
       date_of_birth: date_of_birth || null,
       comic_format,
@@ -143,6 +145,7 @@ router.post('/', async (req, res) => {
         registration_reference: registration.registration_reference,
         payment_reference: payment.payment_reference,
         full_name: registration.full_name,
+        email: registration.email,
         phone_number: registration.phone_number,
         comic_format: registration.comic_format,
         physical_fulfilment: registration.physical_fulfilment,

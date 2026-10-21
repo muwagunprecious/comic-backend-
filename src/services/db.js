@@ -32,6 +32,7 @@ class MemoryStore {
       id,
       registration_reference: data.registration_reference,
       full_name: data.full_name,
+      email: data.email || null,
       phone_number: data.phone_number,
       date_of_birth: data.date_of_birth || null,
       comic_format: data.comic_format,
@@ -261,14 +262,15 @@ class DatabaseService {
     if (!pool) return memoryStore.createRegistration(data);
     const query = `
       INSERT INTO registrations (
-        registration_reference, full_name, phone_number, date_of_birth,
+        registration_reference, full_name, email, phone_number, date_of_birth,
         comic_format, physical_fulfilment, delivery_address, delivery_instructions, privacy_consent_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
       RETURNING *;
     `;
     const values = [
       data.registration_reference,
       data.full_name,
+      data.email || null,
       data.phone_number,
       data.date_of_birth || null,
       data.comic_format,

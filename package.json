@@ -1,0 +1,34 @@
+{
+  "name": "slum-art-comic-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Slum Art Foundation Largest Collaborative Comic Book Project",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "slum-art",
+    "comic",
+    "guinness-world-records",
+    "vercel",
+    "paystack",
+    "flutterwave"
+  ],
+  "author": "Slum Art Foundation",
+  "license": "MIT"
+}
